@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bitcoin Prediction</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center justify-content-lg-between">
+            <nav id="navbar" class="navbar order-last order-lg-0">
+            </nav>
+        </div>
+    </header>
+
+    <div class="form_container">
+        <h1>Bitcoin Price Prediction</h1>
+        <form method="POST" action="/predict">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date">
+            <br>
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date">
+            <br>
+            <input type="submit" value="Predict">
+        </form>
+    </div>
+    <br>
+    <div>
+        {% if plot_div %}
+            {{ plot_div|safe }}
+        {% endif %}
+    </div>
+    <br>
+    <div class="table_container">
+        {% if predicted_values %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Predicted Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for value in predicted_values %}
+                        <tr>
+                            <td>{{ value[0] }}</td>
+                            <td>{{ value[1] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <br>
+    {% if test_rmse %}
+        <div>
+            <h3>Test RMSE: {{ test_rmse }}</h3>
+        </div>
+    {% endif %}
+</body>
+</html>
